@@ -1,0 +1,228 @@
+.category-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.category-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.category-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.category-button.selected {
+    background-color: #2ecc71;
+}
+
+.category-button:hover {
+    background-color: #2980b9;
+}
+
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+/* Card Styles */
+.card {
+    width: 500px;
+    /* Instagram-like standard post size */
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.card-pic img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.card-image img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+    text-align: left;
+}
+
+.card-content p {
+    margin: 10px 0;
+}
+
+/* Like and Comment Section */
+.card-content .like-section {
+    display: flex;
+    align-items: center;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.material-symbols-outlined-red {
+    color: red;
+    cursor: pointer;
+}
+
+.card-content p:nth-of-type(1) {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Comment Input */
+.add-comment {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+}
+
+.add-comment input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+.add-comment button {
+    border: none;
+    background: none;
+    color: #3498db;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.comment-section {
+    margin-left: 15px;
+}
+
+.close-comment {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.showComment {
+    width: 100vw;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    width: 80%;
+    height: 500px;
+    display: flex;
+}
+
+.postPic {
+    width: 60%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postPic img {
+    max-width: 100%;
+    height: auto;
+}
+
+.details {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.comment-section {
+    margin-left: 15px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.close-comment {
+    position: absolute;
+    top: 1%;
+    right: 5%;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.material-symbols-outlined-comment {
+    font-size: 50px;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 48;
+}
+
+.like-section {
+    display: flex;
+    align-items: center;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.material-symbols-outlined-red {
+    color: red;
+    cursor: pointer;
+}

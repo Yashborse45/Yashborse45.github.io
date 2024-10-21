@@ -1,0 +1,181 @@
+.home {
+    background-image: url("https://omctfoa.com/wp-content/uploads/2016/12/Light-Grey-Gradient-Background-3.jpg");
+    background-size: cover;
+}
+
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.card {
+    max-width: 500px;
+    width: 45%;
+    height: max-content;
+    margin: 25px auto;
+    border: 1px solid rgb(173, 173, 173);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Card header */
+.card-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.card-header>h5 {
+    margin: 0;
+    padding: 11px;
+}
+
+.card-pic img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 5px;
+}
+
+.card-image img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+}
+
+.card-content {
+    text-align: left;
+    line-height: 1.5;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgb(173, 173, 173);
+}
+
+.card-content p {
+    margin: 10px 0;
+}
+
+.card-content p:nth-of-type(2) {
+    margin-top: 10px;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+.material-symbols-outlined-red {
+    color: red;
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 48;
+}
+
+.add-comment {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid rgb(173, 173, 173);
+}
+
+.add-comment input {
+    flex: 1;
+    margin-left: 10px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.comment {
+    border: none;
+    background-color: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: #339ce3;
+    margin-left: 10px;
+}
+
+.showComment {
+    width: 100vw;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(16, 13, 13, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    background-color: white;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 10px;
+}
+
+.postPic {
+    flex: 60%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.postPic img {
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+}
+
+.details {
+    flex: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.comment-section {
+    flex-grow: 4;
+    text-align: left;
+    margin-left: 10px;
+    overflow-y: auto;
+}
+
+.comment-section p {
+    margin: 10px 0;
+}
+
+.close-comment {
+    position: fixed;
+    top: 1%;
+    right: 5%;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.material-symbols-outlined-comment {
+    font-size: 50px;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 0,
+        'opsz' 48;
+}
