@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { FaHeart, FaHome, FaPlusCircle, FaSignOutAlt, FaThLarge, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
 import logo from "../img/logo.png";
@@ -15,19 +16,29 @@ export default function Navbar({ login }) {
       return (
         <>
           <Link to="/">
-            <li>Home</li>
+            <li>
+              <FaHome className="nav-icon" /> Home
+            </li>
           </Link>
           <Link to="/category">
-            <li>Category</li>
+            <li>
+              <FaThLarge className="nav-icon" /> Categories
+            </li>
           </Link>
           <Link to="/profile">
-            <li>Profile</li>
+            <li>
+              <FaUser className="nav-icon" /> Profile
+            </li>
           </Link>
           <Link to="/createPost">
-            <li>Create Post</li>
+            <li>
+              <FaPlusCircle className="nav-icon" /> Create Post
+            </li>
           </Link>
           <Link to="/followingpost">
-            <li>My Following</li>
+            <li>
+              <FaHeart className="nav-icon" /> Following
+            </li>
           </Link>
           <button
             className="primaryBtn"
@@ -39,7 +50,7 @@ export default function Navbar({ login }) {
               window.location.reload();
             }}
           >
-            Log Out
+            <FaSignOutAlt className="nav-icon" /> Log Out
           </button>
         </>
       );
@@ -63,7 +74,7 @@ export default function Navbar({ login }) {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="Logo" />
+      <img src={logo} alt="Logo" className="nav-logo" />
       <div className="hamburger" onClick={toggleMenu}>
         <div></div>
         <div></div>

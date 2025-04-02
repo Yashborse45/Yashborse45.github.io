@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./Home.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import "./Home.css";
 
 export default function MyFolliwngPost() {
   const navigate = useNavigate();
@@ -132,10 +131,10 @@ export default function MyFolliwngPost() {
             {/* card header */}
             <div className="card-header">
               <div className="card-pic">
-                <img
+                {/* <img
                   src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
                   alt=""
-                />
+                /> */}
               </div>
               <h5>
                 <Link to={`/profile/${posts.postedBy._id}`}>

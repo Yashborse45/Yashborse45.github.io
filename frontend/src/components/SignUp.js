@@ -89,18 +89,12 @@ export default function SignUp() {
               onChange={(e) => { setPassword(e.target.value) }}
             />
           </div>
-          <p
-            className="loginPara"
-            style={{ fontSize: "12px", margin: "3px 0px" }}
-          >
-            By signing up, you agree to our Terms, <br /> Privacy Policy, and Cookies Policy.
-          </p>
           <input type="submit" id="submit-btn" value="Sign Up" onClick={() => { postData() }} />
         </div>
         <div className="form2">
           Already have an account ?
           <Link to="/signin">
-            <span style={{ color: "blue", cursor: "pointer" }}>Sign In</span>
+            <span style={{ color: "blue", cursor: "pointer" }}> Sign In</span>
           </Link>
         </div>
       </div>

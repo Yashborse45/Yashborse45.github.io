@@ -74,7 +74,7 @@ export default function SignIn() {
         <div className="loginForm2">
           Don't have an account ?
           <Link to="/signup">
-            <span style={{ color: "blue", cursor: "pointer" }}>Sign Up</span>
+            <span style={{ color: "blue", cursor: "pointer" }}> Sign Up</span>
           </Link>
         </div>
       </div>

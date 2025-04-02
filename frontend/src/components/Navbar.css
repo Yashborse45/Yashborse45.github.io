@@ -1,58 +1,68 @@
-img {
-    width: 10%;
-    object-fit: contain;
-}
-
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     box-shadow: 1px 5px 5px #e0dcdc;
+    background-color: white;
 }
 
-ul {
+.nav-logo {
+    width: 40px;
+    height: auto;
+}
+
+.nav-menu {
     display: flex;
     align-items: center;
     margin: 0;
 }
 
-li {
+.nav-menu li {
     list-style: none;
-    padding: 0 20px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-li:hover {
-    color: #1773EA;
-    opacity: 0.8;
+.nav-menu li:hover {
+    color: #1da1f2;
+    /* Twitter blue */
+}
+
+.nav-icon {
+    margin-right: 10px;
+    font-size: 20px;
 }
 
 a {
     text-decoration: none;
     color: black;
-    font-size: 18px;
-}
-
-a:hover {
-    text-decoration: none;
 }
 
 .primaryBtn {
     cursor: pointer;
     font-weight: bolder;
-    padding: 10px 20px;
-    font-size: 0.8rem;
+    padding: 10px 15px;
+    font-size: 0.9rem;
     border: none;
     color: white;
     background: #db183c;
-    border-radius: 15px;
+    border-radius: 25px;
     margin-left: 20px;
     transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
 }
 
 .primaryBtn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px -10px rgba(219, 24, 44, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(219, 24, 44, 0.6);
 }
 
 .hamburger {
@@ -69,7 +79,7 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-    ul {
+    .nav-menu {
         flex-direction: column;
         display: none;
         width: 100%;
@@ -80,7 +90,7 @@ a:hover {
         z-index: 1000;
     }
 
-    ul.active {
+    .nav-menu.active {
         display: flex;
     }
 

@@ -30,7 +30,7 @@ const Category = () => {
                     className={`category-button ${selectedCategory === "Sport" ? "selected" : ""}`}
                     onClick={() => handleCategorySelect("Sport")}
                 >
-                    Sport
+                    Sports
                 </button>
                 <button
                     className={`category-button ${selectedCategory === "Cultural" ? "selected" : ""}`}
