@@ -26,6 +26,7 @@ html {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
+    height: fit-content;
     text-align: center;
 }
 
@@ -36,7 +37,7 @@ html {
 }
 
 .loginPara {
-    color: rgba(142, 142, 142, 1);
+    color: rgb(247, 237, 237);
     font-size: 17px;
     font-weight: 600;
     line-height: 20px;

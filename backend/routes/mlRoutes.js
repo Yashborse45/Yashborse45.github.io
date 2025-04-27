@@ -1,23 +1,29 @@
-const express = require("express");
-const axios = require("axios");
-const multer = require("multer");
-
+const express = require('express');
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() }); // Upload in memory
+const axios = require('axios');
+const multer = require('multer');
+const FormData = require('form-data');
+const fs = require('fs');
 
-router.post("/predict", upload.single("image"), async (req, res) => {
+const upload = multer({ dest: 'uploads/' }); // Temp folder to store uploaded images
+
+// Route: POST /api/ml/predict
+router.post('/predict', upload.single('image'), async (req, res) => {
     try {
-        const imageBuffer = req.file.buffer;
+        const formData = new FormData();
+        formData.append('image', fs.createReadStream(req.file.path));
 
-        const response = await axios.post(
-            "http://localhost:5001/predict",
-            { image: imageBuffer },
-            { headers: { "Content-Type": "multipart/form-data" } }
-        );
+        const response = await axios.post('http://localhost:5001/predict', formData, {
+            headers: formData.getHeaders(),
+        });
+
+        // Optional: delete temp file after upload
+        fs.unlinkSync(req.file.path);
 
         res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    } catch (err) {
+        console.error('Prediction error:', err.message);
+        res.status(500).json({ error: 'Flask prediction failed' });
     }
 });
 

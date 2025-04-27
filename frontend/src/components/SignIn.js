@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { LoginContext } from "../context/LoginContext";
-import logo from "../img/logo.png";
 import "./SignIn.css";
 
 export default function SignIn() {
@@ -52,10 +51,11 @@ export default function SignIn() {
   }
 
   return (
-    <div className="signIn">
+    <div className="signIn" >
       <div>
-        <div className="loginForm">
-          <img className="signUpLogo" src={logo} alt="" />
+        <div className="loginForm" style={{ backgroundColor: "transparent", backdropFilter: "blur(50px)", boxShadow: "5px 5px 30px black" }}>
+          {/* <img className="signUpLogo" src={logo} alt="" /> */}
+          <h1 style={{ fontStyle: "italic", fontFamily: "fantasy", fontSize: "60px", color: "white" }}>XENITH</h1>
           <div>
             <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
           </div>
@@ -71,10 +71,10 @@ export default function SignIn() {
           </div>
           <input type="submit" id="login-btn" onClick={() => { postData() }} value="Sign In" />
         </div>
-        <div className="loginForm2">
+        <div className="loginForm2" style={{ backgroundColor: "transparent", boxShadow: "5px 5px 30px black", color: "white" }}>
           Don't have an account ?
           <Link to="/signup">
-            <span style={{ color: "blue", cursor: "pointer" }}> Sign Up</span>
+            <span style={{ color: "slateblue", cursor: "pointer" }}> Sign Up</span>
           </Link>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../img/logo.png";
 import "./SignUp.css";
 
 import { toast } from 'react-toastify';
@@ -58,8 +57,9 @@ export default function SignUp() {
   return (
     <div className="signUp">
       <div className="form-container">
-        <div className="form">
-          <img className="signUpLogo" src={logo} alt="" />
+        <div className="form" style={{ backgroundColor: "transparent", backdropFilter: "blur(50px)", boxShadow: "5px 5px 30px black" }}>
+          {/* <img className="signUpLogo" src={logo} alt="" /> */}
+          <h1 style={{ fontStyle: "italic", fontFamily: "fantasy", fontSize: "60px", color: "white" }}>XENITH</h1>
           <p className="loginPara">
             Sign up to see photos from the community <br /> shared by your friends.
           </p>
@@ -91,10 +91,10 @@ export default function SignUp() {
           </div>
           <input type="submit" id="submit-btn" value="Sign Up" onClick={() => { postData() }} />
         </div>
-        <div className="form2">
+        <div className="form2" style={{ backgroundColor: "transparent", boxShadow: "5px 5px 30px black", color: "white" }}>
           Already have an account ?
           <Link to="/signin">
-            <span style={{ color: "blue", cursor: "pointer" }}> Sign In</span>
+            <span style={{ color: "slateblue", cursor: "pointer" }}> Sign In</span>
           </Link>
         </div>
       </div>
