@@ -7,9 +7,9 @@ export default function Createpost() {
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
-  const [category, setCategory] = useState(""); // State for category
+  const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(false); // <-- Loading state
   const navigate = useNavigate();
-
 
   // Toast functions
   const notifyA = (msg) => toast.error(msg);
@@ -26,25 +26,32 @@ export default function Createpost() {
         body: JSON.stringify({
           body,
           pic: url,
-          category,  // Ensure category is sent to the backend
+          category,
         }),
       })
         .then((res) => res.json())
         .then((data) => {
+          setLoading(false); // <-- Stop loading after post is created
           if (data.error) {
-            notifyA(data.error);  // Error toast notification
+            notifyA(data.error);
           } else {
-            notifyB("Successfully Posted");  // Success toast notification
+            notifyB("Successfully Posted");
             navigate("/");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setLoading(false); // <-- Stop loading even if error
+          console.log(err);
+        });
     }
   }, [url, body, category, navigate]);
 
-  // posting image to cloudinary
   const postDetails = () => {
-    console.log(body, image);
+    if (!body || !image || !category) {
+      notifyA("Please add all the fields!");
+      return;
+    }
+    setLoading(true); // <-- Start loading when share button clicked
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset", "apsit-circle");
@@ -55,31 +62,40 @@ export default function Createpost() {
     })
       .then((res) => res.json())
       .then((data) => setUrl(data.url))
-      .catch((err) => console.log(err));
-    console.log(url);
+      .catch((err) => {
+        setLoading(false); // <-- Stop loading if image upload fails
+        console.log(err);
+      });
   };
 
   const loadfile = (event) => {
     var output = document.getElementById("output");
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function () {
-      URL.revokeObjectURL(output.src); // free memory
+      URL.revokeObjectURL(output.src);
     };
   };
 
   return (
     <div className="createPost">
-      {/* //header */}
+      {/* header */}
       <div className="post-header">
         <h4 style={{ margin: "3px auto" }}>Create New Post</h4>
-        <button id="post-btn" onClick={() => { postDetails() }}>Share</button>
+        <button id="post-btn" onClick={postDetails} disabled={loading}>
+          {loading ? (
+            <div className="loader"></div> // <-- Spinner while loading
+          ) : (
+            "Share"
+          )}
+        </button>
       </div>
-      {/* image preview */}
+
+      {/* Image preview */}
       <div className="main-div">
         <img
           id="output"
           src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png"
-          alt="Preview of the uploaded pic" // Add an alt text
+          alt="Preview of the uploaded pic"
         />
         <input
           type="file"
@@ -90,6 +106,7 @@ export default function Createpost() {
           }}
         />
       </div>
+
       {/* Category dropdown */}
       <div className="category-selection">
         <select className="form-control category-dropdown" value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -98,15 +115,10 @@ export default function Createpost() {
           <option value="Cultural">Cultural</option>
         </select>
       </div>
-      {/* details */}
+
+      {/* Post Caption */}
       <div className="details">
         <div className="card-header">
-          {/* <div className="card-pic">
-            <img
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              alt="Profile" // Add an alt text
-            />
-          </div> */}
           <h5>Caption</h5>
         </div>
         <textarea

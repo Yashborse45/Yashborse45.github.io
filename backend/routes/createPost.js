@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const { route } = require("./auth");
 const POST = mongoose.model("POST")
+const axios = require("axios");
 
 
 // Route
@@ -16,29 +17,41 @@ router.get("/allposts", requireLogin, (req, res) => {
         .catch(err => console.log(err))
 });
 
-router.post("/createPost", requireLogin, (req, res) => {
-    const { body, pic, category } = req.body; // Extracting category
-    if (!body || !pic || !category) {  // Check if category is provided
+router.post("/createPost", requireLogin, async (req, res) => {
+    const { body, pic, category } = req.body;
+
+    if (!body || !pic || !category) {
         return res.status(422).json({ error: "Please add all the fields" });
     }
 
-    const post = new POST({
-        body,
-        photo: pic,
-        category,  // Saving category in the post
-        postedBy: req.user,
-    });
+    try {
+        let subCategory = null;
 
-    post.save()
-        .then((result) => {
-            res.json({ post: result });
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.status(500).json({ error: "Failed to save post" });
+        // Predict sub-category only if Sport is selected
+        if (category === "Sport") {
+            const predictionResponse = await axios.post(
+                "http://localhost:5001/predict",
+                { imageUrl: pic }
+            );
+            subCategory = predictionResponse.data.category || "Others";
+        }
+
+        const post = new POST({
+            body,
+            photo: pic,
+            category,
+            subCategory,
+            postedBy: req.user
         });
-});
 
+        await post.save();
+        res.json({ message: "Successfully created post", post });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+});
 
 router.get("/myposts", requireLogin, (req, res) => {
     POST.find({ postedBy: req.user._id })

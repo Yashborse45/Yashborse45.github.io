@@ -1,39 +1,87 @@
 .profile {
   max-width: 600px;
   margin: 10px auto;
+  padding-bottom: 30px;
+  /* Add padding at bottom to ensure content isn't cut off */
 }
 
 .profile-frame {
   display: flex;
   justify-content: space-evenly;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 .profile-pic {
   height: fit-content;
 }
-.profile-pic > img {
+
+.profile-pic>img {
   width: 160px;
   height: 160px;
   object-fit: contain;
   border-radius: 100px;
+  cursor: pointer;
+  /* Indicate image is clickable */
 }
 
 .profile-data {
   text-align: left;
-}
-.profile-info p {
-  padding: 0px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+.profile-data h1 {
+  margin-bottom: 10px;
+}
+
+.profile-info {
+  display: flex;
+}
+
+.profile-info p {
+  padding: 0px 5px;
+  margin-right: 15px;
+  font-size: 16px;
+}
+
+/* Gallery with proper scrolling */
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  text-align: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  max-height: none;
+  /* Remove any height restriction */
+  padding: 0 10px;
 }
 
 .gallery img {
-  width: 30%;
-  margin: 10px;
+  width: calc(33.33% - 10px);
+  /* 3 images per row with spacing */
+  aspect-ratio: 1/1;
+  /* Keep images square */
+  object-fit: cover;
+  /* Maintain aspect ratio but fill the square */
+  border-radius: 3px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  margin: 0;
+  /* Remove margin and use gap instead */
+}
+
+.gallery img:hover {
+  transform: scale(1.02);
+}
+
+/* Make the page scrollable overall */
+body {
+  overflow-y: auto;
 }
 
 .followBtn {
@@ -68,6 +116,28 @@
   background: none;
   border: none;
   font-weight: bolder;
-
   font-size: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .profile-frame {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-data {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .profile-info {
+    justify-content: center;
+  }
+
+  .gallery img {
+    width: calc(50% - 10px);
+    /* 2 images per row on small screens */
+  }
 }

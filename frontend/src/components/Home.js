@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "./Home.css";
 
 export default function Home() {
-  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+  const picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [comment, setComment] = useState("");
@@ -29,11 +29,14 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        console.log("Posts fetched:", result);
         setData(result);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        console.log("Error fetching posts:", err);
+        notifyA("Error loading posts");
+      });
+  }, [navigate]);
 
   // to show and hide comments
   const toggleComment = (posts) => {
@@ -46,7 +49,6 @@ export default function Home() {
     }
   };
 
-
   const likePost = (id) => {
     fetch("http://localhost:5000/like", {
       method: "put",
@@ -58,19 +60,30 @@ export default function Home() {
         postId: id,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Server responded with status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((result) => {
+        console.log("Like result:", result);
         const newData = data.map((posts) => {
-          if (posts._id == result._id) {
+          if (posts._id === result._id) {
             return result;
           } else {
             return posts;
           }
         });
         setData(newData);
-        console.log(result);
+        notifyB("Post liked");
+      })
+      .catch((err) => {
+        console.error("Error liking post:", err);
+        notifyA("Failed to like post");
       });
   };
+
   const unlikePost = (id) => {
     fetch("http://localhost:5000/unlike", {
       method: "put",
@@ -82,22 +95,37 @@ export default function Home() {
         postId: id,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Server responded with status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((result) => {
+        console.log("Unlike result:", result);
         const newData = data.map((posts) => {
-          if (posts._id == result._id) {
+          if (posts._id === result._id) {
             return result;
           } else {
             return posts;
           }
         });
         setData(newData);
-        console.log(result);
+        notifyA("Post unliked");
+      })
+      .catch((err) => {
+        console.error("Error unliking post:", err);
+        notifyA("Failed to unlike post");
       });
   };
 
   // function to make comment
   const makeComment = (text, id) => {
+    if (!text.trim()) {
+      notifyA("Comment cannot be empty");
+      return;
+    }
+
     fetch("http://localhost:5000/comment", {
       method: "put",
       headers: {
@@ -109,10 +137,16 @@ export default function Home() {
         postId: id,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Server responded with status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((result) => {
+        console.log("Comment result:", result);
         const newData = data.map((posts) => {
-          if (posts._id == result._id) {
+          if (posts._id === result._id) {
             return result;
           } else {
             return posts;
@@ -121,22 +155,41 @@ export default function Home() {
         setData(newData);
         setComment("");
         notifyB("Comment posted");
-        console.log(result);
+      })
+      .catch((err) => {
+        console.error("Error posting comment:", err);
+        notifyA("Failed to post comment");
       });
   };
+
+  // Check if user exists in localStorage
+  const getCurrentUserId = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user._id) {
+        return user._id;
+      }
+      return null;
+    } catch (err) {
+      console.error("Error getting user ID:", err);
+      return null;
+    }
+  };
+
+  const currentUserId = getCurrentUserId();
 
   return (
     <div className="home">
       {/* card */}
       {data.map((posts) => {
         return (
-          <div className="card">
+          <div className="card" key={posts._id}>
             {/* card header */}
             <div className="card-header">
               <div className="card-pic">
                 <img
                   src={posts.postedBy.Photo ? posts.postedBy.Photo : picLink}
-                  alt=""
+                  alt="Profile"
                 />
               </div>
               <h5>
@@ -147,14 +200,12 @@ export default function Home() {
             </div>
             {/* card image */}
             <div className="card-image">
-              <img src={posts.photo} alt="" />
+              <img src={posts.photo} alt="Post" />
             </div>
 
             {/* card content */}
             <div className="card-content">
-              {posts.likes.includes(
-                JSON.parse(localStorage.getItem("user"))._id
-              ) ? (
+              {currentUserId && posts.likes.includes(currentUserId) ? (
                 <span
                   className="material-symbols-outlined material-symbols-outlined-red"
                   onClick={() => {
@@ -175,7 +226,7 @@ export default function Home() {
               )}
 
               <p>{posts.likes.length} Likes</p>
-              <p>{posts.body} </p>
+              <p>{posts.body}</p>
               <p
                 style={{ fontWeight: "bold", cursor: "pointer" }}
                 onClick={() => {
@@ -215,7 +266,7 @@ export default function Home() {
         <div className="showComment">
           <div className="container">
             <div className="postPic">
-              <img src={item.photo} alt="" />
+              <img src={item.photo} alt="Post" />
             </div>
             <div className="details">
               {/* card header */}
@@ -225,11 +276,11 @@ export default function Home() {
               >
                 <div className="card-pic">
                   <img
-                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                    alt=""
+                    src={item.postedBy.Photo ? item.postedBy.Photo : picLink}
+                    alt="Profile"
                   />
                 </div>
-                <h5>{item.postedBy.name}</h5>
+                <h5>{item.postedBy.userName || item.postedBy.name}</h5>
               </div>
 
               {/* commentSection */}
@@ -237,16 +288,16 @@ export default function Home() {
                 className="comment-section"
                 style={{ borderBottom: "1px solid #00000029" }}
               >
-                {item.comments.map((comment) => {
+                {item.comments && item.comments.map((comment, index) => {
                   return (
-                    <p className="comm">
+                    <p className="comm" key={index}>
                       <span
                         className="commenter"
                         style={{ fontWeight: "bolder" }}
                       >
-                        {comment.postedBy.name}{" "}
+                        {comment.postedBy.userName || comment.postedBy.name}{" "}
                       </span>
-                      <span className="commentText">{comment.comment}</span>
+                      <span className="commentText">{comment.comment || comment.text}</span>
                     </p>
                   );
                 })}
@@ -254,7 +305,7 @@ export default function Home() {
 
               {/* card content */}
               <div className="card-content">
-                <p>{item.likes.length} Likes</p>
+                <p>{item.likes ? item.likes.length : 0} Likes</p>
                 <p>{item.body}</p>
               </div>
 
