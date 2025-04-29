@@ -1,14 +1,35 @@
-import React from "react";
-import "./PostDetail.css";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./PostDetail.css";
 
 export default function PostDetail({ item, toggleDetails }) {
   const navigate = useNavigate();
+  const [postUser, setPostUser] = useState("");
+  // Default profile pic link
+  const picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
 
   // Toast functions
   const notifyA = (msg) => toast.error(msg);
   const notifyB = (msg) => toast.success(msg);
+
+  // Fetch user data for the post
+  useEffect(() => {
+    if (item && item.postedBy && item.postedBy._id) {
+      fetch(`http://localhost:5000/user/${item.postedBy._id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.user) {
+            setPostUser(result.user);
+          }
+        })
+        .catch(err => console.log(err));
+    }
+  }, [item]);
 
   const removePost = (postId) => {
     if (window.confirm("Do you really want to delete this post ?")) {
@@ -42,11 +63,11 @@ export default function PostDetail({ item, toggleDetails }) {
           >
             <div className="card-pic">
               <img
-                src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
+                src={postUser && postUser.Photo ? postUser.Photo : picLink}
+                alt="Profile"
               />
             </div>
-            <h5>{item.postedBy.name}</h5>
+            <h5>{item.postedBy.userName}</h5>
             <div
               className="deletePost"
               onClick={() => {
@@ -64,7 +85,7 @@ export default function PostDetail({ item, toggleDetails }) {
           >
             {item.comments.map((comment) => {
               return (
-                <p className="comm">
+                <p className="comm" key={comment._id}>
                   <span className="commenter" style={{ fontWeight: "bolder" }}>
                     {comment.postedBy.name}{" "}
                   </span>
@@ -86,17 +107,17 @@ export default function PostDetail({ item, toggleDetails }) {
             <input
               type="text"
               placeholder="Add a comment"
-              //   value={comment}
-              //   onChange={(e) => {
-              //     setComment(e.target.value);
-              //   }}
+            //   value={comment}
+            //   onChange={(e) => {
+            //     setComment(e.target.value);
+            //   }}
             />
             <button
               className="comment"
-              //   onClick={() => {
-              //     makeComment(comment, item._id);
-              //     toggleComment();
-              //   }}
+            //   onClick={() => {
+            //     makeComment(comment, item._id);
+            //     toggleComment();
+            //   }}
             >
               Post
             </button>

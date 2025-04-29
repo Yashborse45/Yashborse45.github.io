@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import "./Home.css";
 
 export default function MyFolliwngPost() {
+  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [user, setUser] = useState("");
   const [comment, setComment] = useState("");
   const [show, setShow] = useState(false);
   const [item, setItem] = useState([]);
@@ -131,10 +133,10 @@ export default function MyFolliwngPost() {
             {/* card header */}
             <div className="card-header">
               <div className="card-pic">
-                {/* <img
-                  src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                  alt=""
-                /> */}
+                <img
+                  src={user.Photo ? user.Photo : picLink}
+                  alt="Profile"
+                />
               </div>
               <h5>
                 <Link to={`/profile/${posts.postedBy._id}`}>
@@ -222,8 +224,8 @@ export default function MyFolliwngPost() {
               >
                 <div className="card-pic">
                   <img
-                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                    alt=""
+                    src={user.Photo ? user.Photo : picLink}
+                    alt="Profile"
                   />
                 </div>
                 <h5>{item.postedBy.name}</h5>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import PostDetail from "./PostDetail";
 import "./Profile.css";
-import { useParams } from "react-router-dom";
 
 export default function UserProfie() {
   var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
@@ -9,6 +9,17 @@ export default function UserProfie() {
   const [isFollow, setIsFollow] = useState(false);
   const [user, setUser] = useState("");
   const [posts, setPosts] = useState([]);
+  const [show, setShow] = useState(false); // Add this state
+  const [currentPost, setCurrentPost] = useState(null);
+
+  const toggleDetails = (post) => {
+    if (show) {
+      setShow(false);
+    } else {
+      setShow(true);
+      setCurrentPost(post);
+    }
+  };
 
   // to follow user
   const followUser = (userId) => {
@@ -77,10 +88,13 @@ export default function UserProfie() {
       <div className="profile-frame">
         {/* profile-pic */}
         <div className="profile-pic">
-          <img src={user.Photo ? user.Photo : picLink} alt="" />
+          <img
+            src={user.Photo ? user.Photo : picLink}
+            alt="Profile"
+          />
         </div>
         {/* profile-data */}
-        <div className="pofile-data">
+        <div className="profile-data">
           <div
             style={{
               display: "flex",
@@ -124,17 +138,15 @@ export default function UserProfie() {
             <img
               key={pics._id}
               src={pics.photo}
-              // onClick={() => {
-              //     toggleDetails(pics)
-              // }}
+              onClick={() => {
+                toggleDetails(pics);
+              }}
               className="item"
             ></img>
           );
         })}
       </div>
-      {/* {show &&
-        <PostDetail item={posts} toggleDetails={toggleDetails} />
-      } */}
+      {show && <PostDetail item={currentPost} toggleDetails={toggleDetails} />}
     </div>
   );
 }

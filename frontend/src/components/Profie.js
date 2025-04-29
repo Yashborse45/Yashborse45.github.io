@@ -54,7 +54,7 @@ export default function Profie() {
           <img
             onClick={changeprofile}
             src={user.Photo ? user.Photo : picLink}
-            alt=""
+            alt="Profile"
           />
         </div>
         {/* profile-data */}
