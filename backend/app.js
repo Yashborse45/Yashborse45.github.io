@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const { mongoUrl } = require("./keys");
 const cors = require("cors");
-const mlRoutes = require("./routes/mlRoutes"); // 👈 Fixed: use require instead of import
+const mlRoutes = require("./routes/mlRoutes"); 
 
 app.use(cors());
 
@@ -28,6 +28,6 @@ mongoose.connection.on("error", () => {
     console.log("not connected to mongodb");
 });
 
-app.listen(port, () => {
-    console.log("server is running on port " + port);
+app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT}`);
 });
