@@ -10,8 +10,9 @@ const mlRoutes = require("./routes/mlRoutes");
 app.use(cors({
     origin: [
         'http://localhost:3000', // For local development
-        'https://xenith-frontend.onrender.com', // Your future frontend URL
-        'https://xenith-frontend.render.com'
+        'https://xenith-frontend.onrender.com', // Your actual frontend URL
+        'https://xenith-frontend.render.com',
+        '*' // Allow all origins for now (remove this in production)
     ],
     credentials: true
 }));
