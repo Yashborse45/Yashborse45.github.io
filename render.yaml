@@ -4,8 +4,11 @@ services:
     env: node
     plan: free
     buildCommand: "cd backend && npm install"
-    startCommand: "node app.js"
-  - type: static_site
+    startCommand: "cd backend && node app.js"
+    
+  - type: web
     name: xenith-frontend
+    env: static
+    plan: free
     buildCommand: "cd frontend && npm install && npm run build"
-    publishPath: "frontend/build"
+    staticPublishPath: "frontend/build"
