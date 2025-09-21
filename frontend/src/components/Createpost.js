@@ -17,7 +17,7 @@ export default function Createpost() {
 
   useEffect(() => {
     if (url) {
-      fetch("http://localhost:5000/createPost", {
+      fetch("https://xenith.onrender.com/createPost", {
         method: "post",
         headers: {
           "Content-Type": "application/json",

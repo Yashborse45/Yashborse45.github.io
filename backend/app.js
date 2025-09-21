@@ -6,7 +6,15 @@ const { mongoUrl } = require("./keys");
 const cors = require("cors");
 const mlRoutes = require("./routes/mlRoutes"); 
 
-app.use(cors());
+// Configure CORS to allow frontend access
+app.use(cors({
+    origin: [
+        'http://localhost:3000', // For local development
+        'https://xenith-frontend.onrender.com', // Your future frontend URL
+        'https://xenith-frontend.render.com'
+    ],
+    credentials: true
+}));
 
 require('./models/model');
 require('./models/post');
