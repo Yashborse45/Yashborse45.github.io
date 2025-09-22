@@ -1,12 +1,21 @@
 const express = require('express');
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const { mongoUrl } = require("./keys");
 const cors = require("cors");
-const mlRoutes = require("./routes/mlRoutes"); // 👈 Fixed: use require instead of import
+const mlRoutes = require("./routes/mlRoutes"); 
 
-app.use(cors());
+// Configure CORS to allow frontend access
+app.use(cors({
+    origin: [
+        'http://localhost:3000', // For local development
+        'https://xenith-frontend.onrender.com', // Your actual frontend URL
+        'https://xenith-frontend.render.com',
+        '*' // Allow all origins for now (remove this in production)
+    ],
+    credentials: true
+}));
 
 require('./models/model');
 require('./models/post');
@@ -28,6 +37,6 @@ mongoose.connection.on("error", () => {
     console.log("not connected to mongodb");
 });
 
-app.listen(port, () => {
-    console.log("server is running on port " + port);
+app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT}`);
 });

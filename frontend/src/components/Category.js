@@ -9,7 +9,7 @@ const Category = () => {
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         // Fetch posts by category
-        fetch(`http://localhost:5000/posts/category/${category}`, {
+        fetch(`https://xenith.onrender.com/posts/category/${category}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("jwt"),
             },

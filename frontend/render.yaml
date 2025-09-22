@@ -1,0 +1,5 @@
+services:
+  - type: static_site
+    name: xenith-frontend
+    buildCommand: "npm install && npm run build"
+    publishPath: "build"
