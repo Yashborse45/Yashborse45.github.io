@@ -30,7 +30,7 @@ export default function SignUp() {
     }
 
     // Sending data to server
-    fetch("http://localhost:5000/signup", {
+    fetch("https://xenith.onrender.com/signup", {
       method: "post",
       headers: {
         "Content-Type": "application/json"

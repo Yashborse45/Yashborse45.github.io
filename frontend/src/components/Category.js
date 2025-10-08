@@ -11,22 +11,8 @@ const Category = () => {
 
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
-        setSelectedSubCategory("");
-        fetchPosts(category, "");
-    };
-
-    const handleSubCategorySelect = (subCategory) => {
-        setSelectedSubCategory(subCategory);
-        fetchPosts(selectedCategory, subCategory);
-    };
-
-    const fetchPosts = (category, subCategory) => {
-        let url = `http://localhost:5000/posts/category/${category}`;
-        if (category === "Sport" && subCategory) {
-            url = `http://localhost:5000/posts/category/${category}/${subCategory}`;
-        }
-
-        fetch(url, {
+        // Fetch posts by category
+        fetch(`https://xenith.onrender.com/posts/category/${category}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("jwt"),
             },
