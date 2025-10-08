@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ProfilePic({ changeprofile }) {
   const hiddenFileInput = useRef(null);
@@ -9,9 +9,9 @@ export default function ProfilePic({ changeprofile }) {
   const postDetails = () => {
     const data = new FormData();
     data.append("file", image);
-    data.append("upload_preset", "insta-clone");
-    data.append("cloud_name", "cantacloud2");
-    fetch("https://api.cloudinary.com/v1_1/cantacloud2/image/upload", {
+    data.append("upload_preset", "apsit-circle");
+    data.append("cloud_name", "apsitcirclecloud");
+    fetch("https://api.cloudinary.com/v1_1/apsitcirclecloud/image/upload", {
       method: "post",
       body: data,
     })

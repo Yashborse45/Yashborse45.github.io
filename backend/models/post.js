@@ -8,12 +8,16 @@ const postSchema = new mongoose.Schema({
     },
     photo: {
         type: String,
-        required: true // Corrected from 'require' to 'required'
+        required: true
     },
-    category: { // New category field
+    category: {
         type: String,
-        enum: ["Sport", "Cultural"], // Enum to limit values
-        required: true // Optional: You can make it required or not based on your requirement
+        enum: ["Sport", "Cultural"],
+        required: true
+    },
+    subCategory: {  // 🆕 Added subCategory field
+        type: String,
+        default: null
     },
     likes: [{ type: ObjectId, ref: "USER" }],
     comments: [{

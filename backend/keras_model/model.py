@@ -3,24 +3,27 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import traceback
+import requests
 from io import BytesIO
 
 app = Flask(__name__)
-
-# Load the trained AI model
 model = tf.keras.models.load_model("mobilenet_xenith_40.keras")
 
-# Define categories
 class_labels = ["Badminton", "Chess", "Cricket", "Football", "Kabaddi", "Table Tennis", "Volleyball"]
 
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        if 'image' not in request.files:
-            return jsonify({"error": "No image file provided"}), 400
+        data = request.get_json()
 
-        file = request.files['image']
-        img = image.load_img(BytesIO(file.read()), target_size=(224, 224))
+        if 'imageUrl' not in data:
+            return jsonify({"error": "No imageUrl provided"}), 400
+
+        image_url = data['imageUrl']
+
+        response = requests.get(image_url)
+        img = image.load_img(BytesIO(response.content), target_size=(224, 224))
+
         img_array = image.img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0) / 255.0
 
@@ -36,7 +39,6 @@ def predict():
         print("🔥 Prediction error:")
         traceback.print_exc()
         return jsonify({"error": "Flask prediction failed"}), 500
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
