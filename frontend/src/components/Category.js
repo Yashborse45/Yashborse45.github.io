@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // For linking profiles
-import "./Category.css"; // Add any specific styling you need here
+import { faFootballBall, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "./Category.css";
 
 const Category = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedSubCategory, setSelectedSubCategory] = useState("");
     const [posts, setPosts] = useState([]);
 
     const handleCategorySelect = (category) => {
@@ -16,10 +19,16 @@ const Category = () => {
         })
             .then((res) => res.json())
             .then((result) => {
-                setPosts(result); // Set filtered posts to state
+                setPosts(result);
             })
             .catch((err) => console.log(err));
     };
+
+    useEffect(() => {
+        if (selectedCategory) {
+            fetchPosts(selectedCategory, selectedSubCategory);
+        }
+    }, [selectedCategory, selectedSubCategory]);
 
     return (
         <div className="category-container">
@@ -30,17 +39,33 @@ const Category = () => {
                     className={`category-button ${selectedCategory === "Sport" ? "selected" : ""}`}
                     onClick={() => handleCategorySelect("Sport")}
                 >
-                    Sports
+                    <FontAwesomeIcon icon={faFootballBall} size="lg" /> Sports
                 </button>
                 <button
                     className={`category-button ${selectedCategory === "Cultural" ? "selected" : ""}`}
                     onClick={() => handleCategorySelect("Cultural")}
                 >
-                    Cultural
+                    <FontAwesomeIcon icon={faMicrophone} size="lg" /> Cultural
                 </button>
             </div>
 
-            {/* Display Filtered Posts */}
+            {/* Subcategory Selection for Sports */}
+            {selectedCategory === "Sport" && (
+                <div className="subcategory-buttons">
+                    <h4>Select Subcategory</h4>
+                    {["Football", "Cricket", "Kabaddi", "Badminton", "Table Tennis", "Volleyball", "Chess", "Others"].map((subCat) => (
+                        <button
+                            key={subCat}
+                            className={`subcategory-button ${selectedSubCategory === subCat ? "selected" : ""}`}
+                            onClick={() => handleSubCategorySelect(subCat)}
+                        >
+                            {subCat}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+            {/* Display Posts */}
             <div className="posts-container">
                 {posts.length > 0 ? (
                     posts.map((post) => (
@@ -48,7 +73,10 @@ const Category = () => {
                             {/* Card Header */}
                             <div className="card-header">
                                 <div className="card-pic">
-                                    <img src={post.postedBy.Photo || "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"} alt="User" />
+                                    <img
+                                        src={post.postedBy.Photo || "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"}
+                                        alt="User"
+                                    />
                                 </div>
                                 <h5>
                                     <Link to={`/profile/${post.postedBy._id}`}>
@@ -64,13 +92,17 @@ const Category = () => {
 
                             {/* Card Content */}
                             <div className="card-content">
-                                <p>{post.likes.length} Likes</p>
+                                <p><strong>{post.likes.length} Likes</strong></p>
                                 <p>{post.body}</p>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p>No posts available for this category.</p>
+                    <div className="posts-container" style={{ display: 'block' }}>
+                        <div className="no-posts-message">
+                            No posts available for this category.
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

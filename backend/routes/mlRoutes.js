@@ -1,29 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const multer = require('multer');
-const FormData = require('form-data');
-const fs = require('fs');
-
-const upload = multer({ dest: 'uploads/' }); // Temp folder to store uploaded images
 
 // Route: POST /api/ml/predict
-router.post('/predict', upload.single('image'), async (req, res) => {
+router.post('/predict', async (req, res) => {
     try {
-        const formData = new FormData();
-        formData.append('image', fs.createReadStream(req.file.path));
+        const { imageUrl } = req.body; // Extract imageUrl from the request body
 
-        const response = await axios.post('http://localhost:5001/predict', formData, {
-            headers: formData.getHeaders(),
+        if (!imageUrl) {
+            return res.status(400).json({ error: 'No imageUrl provided' });
+        }
+
+        // Send the image URL to the Flask server for prediction
+        const response = await axios.post('http://localhost:5001/predict', {
+            imageUrl: imageUrl, // Send image URL to Flask
         });
 
-        // Optional: delete temp file after upload
-        fs.unlinkSync(req.file.path);
+        res.json(response.data); // Return the Flask prediction response
 
-        res.json(response.data);
     } catch (err) {
         console.error('Prediction error:', err.message);
-        res.status(500).json({ error: 'Flask prediction failed' });
+        res.status(500).json({ error: 'ML model prediction failed' });
     }
 });
 
